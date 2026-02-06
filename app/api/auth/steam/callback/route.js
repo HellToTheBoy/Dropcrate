@@ -8,13 +8,11 @@ export async function GET(request) {
 
   const steamId = claimedId.split("/").pop();
 
-  // Create a response
   const response = Response.redirect("https://dropcrate.online");
 
-  // Set cookie (session)
-  response.headers.set(
+  response.headers.append(
     "Set-Cookie",
-    `steamId=${steamId}; Path=/; HttpOnly; SameSite=Lax`
+    `steamId=${steamId}; Path=/; HttpOnly; Secure; SameSite=Lax`
   );
 
   return response;
