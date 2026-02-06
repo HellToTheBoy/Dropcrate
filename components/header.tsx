@@ -1,9 +1,26 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/me")
+      .then((res) => res.json())
+      .then((data) => {
+        setLoggedIn(!!data.loggedIn);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoggedIn(false);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
@@ -13,6 +30,7 @@ export function Header() {
             DropCrate
           </span>
         </div>
+
         <nav className="hidden items-center gap-8 md:flex">
           <a
             href="#how-it-works"
@@ -33,17 +51,27 @@ export function Header() {
             FAQ
           </a>
         </nav>
-        <Button size="sm" className="gap-2 font-medium">
-          <svg
-            className="h-4 w-4"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path d="M12 2a10 10 0 0 0-3.16 19.5l4.58-6.33a2.5 2.5 0 1 1 3.33-3.22l5.19-1.87A10 10 0 0 0 12 2zm0 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" />
-          </svg>
-          Login with Steam
-        </Button>
+
+        {/* AUTH BUTTON */}
+        {loading ? null : loggedIn ? (
+          <Button size="sm" variant="secondary">
+            Logged in
+          </Button>
+        ) : (
+          <a href="/api/auth/steam">
+            <Button size="sm" className="gap-2 font-medium">
+              <svg
+                className="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M12 2a10 10 0 0 0-3.16 19.5l4.58-6.33a2.5 2.5 0 1 1 3.33-3.22l5.19-1.87A10 10 0 0 0 12 2zm0 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" />
+              </svg>
+              Login with Steam
+            </Button>
+          </a>
+        )}
       </div>
     </header>
   );
