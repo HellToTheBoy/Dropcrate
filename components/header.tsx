@@ -5,21 +5,21 @@ import { Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState<{ username: string } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/me")
-      .then((res) => res.json())
-      .then((data) => {
-        setLoggedIn(!!data.loggedIn);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoggedIn(false);
-        setLoading(false);
-      });
-  }, []);
+  fetch("/api/me/profile")
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.loggedIn) {
+        setUser({ username: data.username });
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
+}, []);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
@@ -53,11 +53,11 @@ export function Header() {
         </nav>
 
         {/* AUTH BUTTON */}
-        {loading ? null : loggedIn ? (
-          <Button size="sm" variant="secondary">
-            Logged in
-          </Button>
-        ) : (
+        {loading ? null : user ? (
+  <Button size="sm" variant="secondary">
+    {user.username}
+  </Button>
+) : (
           <a href="/api/auth/steam">
             <Button size="sm" className="gap-2 font-medium">
               <svg
