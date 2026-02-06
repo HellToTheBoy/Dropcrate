@@ -2,8 +2,20 @@
 
 import { useEffect, useState } from "react";
 
+import { Header } from "@/components/header";
+import { HeroSection } from "@/components/hero-section";
+import { StepsSection } from "@/components/steps-section";
+import { SkinsSection } from "@/components/skins-section";
+import { FAQSection } from "@/components/faq-section";
+import { Footer } from "@/components/footer";
+
+type User = {
+  loggedIn: boolean;
+  steamId: string;
+};
+
 export default function Home() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,32 +27,41 @@ export default function Home() {
       });
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!user) {
-    return (
-      <div style={{ padding: 40 }}>
-        <h1>DropCrate</h1>
-        <a href="/api/auth/steam">
-          <button>Sign in with Steam</button>
-        </a>
-      </div>
-    );
-  }
-
   return (
-    <div style={{ padding: 40 }}>
-      <h1>Welcome to DropCrate</h1>
-      <p>Logged in as:</p>
-      <code>{user.steamId}</code>
+    <main className="min-h-screen bg-background">
+      {/* AUTH BAR */}
+      <div className="flex justify-end items-center px-6 py-3 border-b border-border text-sm">
+        {loading ? (
+          <span>Loading...</span>
+        ) : user ? (
+          <div className="flex items-center gap-4">
+            <span className="opacity-80">
+              Logged in
+            </span>
+            <a
+              href="/api/logout"
+              className="underline hover:opacity-80"
+            >
+              Logout
+            </a>
+          </div>
+        ) : (
+          <a
+            href="/api/auth/steam"
+            className="underline hover:opacity-80"
+          >
+            Sign in with Steam
+          </a>
+        )}
+      </div>
 
-      <br /><br />
-
-      <a href="/api/logout">
-        <button>Logout</button>
-      </a>
-    </div>
+      {/* ORIGINAL UI */}
+      <Header />
+      <HeroSection />
+      <StepsSection />
+      <SkinsSection />
+      <FAQSection />
+      <Footer />
+    </main>
   );
 }
