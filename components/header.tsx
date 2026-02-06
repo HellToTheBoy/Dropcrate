@@ -60,9 +60,11 @@ export function Header() {
 
         {/* AUTH BUTTON */}
         {loading ? null : user ? (
+  <a href="/api/logout">
   <Button size="sm" variant="secondary">
-    {user.username}
+    {user.username} (Logout)
   </Button>
+</a>
 ) : (
           <a href="/api/auth/steam">
             <Button size="sm" className="gap-2 font-medium">
