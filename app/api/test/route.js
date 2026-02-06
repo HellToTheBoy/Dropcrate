@@ -1,3 +1,7 @@
 export async function GET() {
-  return new Response("Backend is working 🚀");
+  return Response.json({
+    status: "ok",
+    message: "Backend is alive",
+  });
 }
+
