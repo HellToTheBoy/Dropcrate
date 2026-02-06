@@ -8,12 +8,11 @@ export async function GET(request) {
 
   const steamId = claimedId.split("/").pop();
 
-  const response = Response.redirect("https://dropcrate.online");
-
-  response.headers.append(
-    "Set-Cookie",
-    `steamId=${steamId}; Path=/; HttpOnly; Secure; SameSite=Lax`
-  );
-
-  return response;
+  return new Response(null, {
+    status: 302,
+    headers: {
+      Location: "https://dropcrate.online",
+      "Set-Cookie": `steamId=${steamId}; Path=/; HttpOnly; Secure; SameSite=Lax`,
+    },
+  });
 }
