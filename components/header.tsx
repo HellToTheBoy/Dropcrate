@@ -18,8 +18,14 @@ export function Header() {
         setUser(null);
       }
       setLoading(false);
+    })
+    .catch(() => {
+      // If backend errors, assume logged out
+      setUser(null);
+      setLoading(false);
     });
 }, []);
+
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
