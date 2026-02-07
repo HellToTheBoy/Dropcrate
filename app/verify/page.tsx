@@ -1,4 +1,13 @@
 "use client";
+useEffect(() => {
+  fetch("/api/me")
+    .then(res => res.json())
+    .then(data => {
+      if (!data.loggedIn) {
+        window.location.href = "/api/auth/steam";
+      }
+    });
+}, []);
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
