@@ -1,4 +1,4 @@
-export async function GET(request: Request) {
+export async function GET(request) {
   const cookie = request.headers.get("cookie") || "";
   const match = cookie.match(/steamId=([^;]+)/);
 
@@ -6,11 +6,8 @@ export async function GET(request: Request) {
     return Response.json({ loggedIn: false });
   }
 
-  const steamId = match[1];
-
   return Response.json({
     loggedIn: true,
-    steamId,
-    username: `SteamUser_${steamId.slice(-4)}`, // temporary until you fetch real Steam profile
+    steamId: match[1],
   });
 }
