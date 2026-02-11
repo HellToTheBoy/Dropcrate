@@ -201,25 +201,31 @@ export default function VerifyPage() {
   }
 
   return (
-   {user && (
-  <div className="mb-8 flex items-center gap-4 rounded-xl border border-border bg-card p-4">
-    {user.avatar && (
-      <img
-        src={user.avatar}
-        alt="Steam Avatar"
-        className="h-12 w-12 rounded-full"
-      />
+  <div className="min-h-screen bg-background p-6">
+
+    {user && (
+      <div className="mb-8 flex items-center gap-4 rounded-xl border border-border bg-card p-4">
+        {user.avatar && (
+          <img
+            src={user.avatar}
+            alt="Avatar"
+            className="h-12 w-12 rounded-full"
+          />
+        )}
+
+        <div>
+          <p className="text-sm text-muted-foreground">Logged in as</p>
+          <p className="font-medium text-foreground">
+            {user.username}
+          </p>
+        </div>
+      </div>
     )}
-    <div>
-      <p className="font-medium text-foreground">
-        {user.username}
-      </p>
-      <p className="text-sm text-muted-foreground">
-        Logged in via Steam
-      </p>
-    </div>
+
+    {/* rest of your verify page content here */}
+
   </div>
-)}
+);
 
         {/* Progress */}
         <div className="mb-8">
