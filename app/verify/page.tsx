@@ -38,6 +38,20 @@ export default function VerifyPage() {
   const allComplete = tradeLinkSaved && step1Complete && step2Complete;
   const isOnCooldown = cooldownRemaining !== null && cooldownRemaining > 0;
 
+  useEffect(() => {
+  const loadTradeLink = async () => {
+    const res = await fetch("/api/trade-link");
+    const data = await res.json();
+
+    if (data.tradeLink) {
+      setTradeLink(data.tradeLink);
+      setTradeLinkSaved(true);
+    }
+  };
+
+  loadTradeLink();
+}, []);
+
   // 🔐 Check if user is logged in
   useEffect(() => {
   fetch("/api/me")
