@@ -19,7 +19,11 @@ const simulateComplete = (step: number) => {
 export default function VerifyPage() {
   const router = useRouter();
   const [tradeLink, setTradeLink] = useState("");
-  const [user, setUser] = useState<{ steamId: string } | null>(null);
+  const [user, setUser] = useState<{
+  steamId: string;
+  username?: string;
+  avatar?: string;
+} | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [tradeLinkSaved, setTradeLinkSaved] = useState(false);
   const [step1Complete, setStep1Complete] = useState(false);
@@ -197,27 +201,23 @@ export default function VerifyPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background px-6 py-12">
-      <div className="mx-auto max-w-xl">
-        {/* User Info */}
-        <div className="mb-8 flex items-center gap-4 rounded-xl border border-border bg-card p-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary">
-            <svg
-              className="h-6 w-6 text-muted-foreground"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M12 2a10 10 0 0 0-3.16 19.5l4.58-6.33a2.5 2.5 0 1 1 3.33-3.22l5.19-1.87A10 10 0 0 0 12 2zm0 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" />
-            </svg>
-          </div>
-          <div>
-            <p className="font-medium text-foreground">
-             {user ? user.steamId : "Loading..."}
-             </p>
-            <p className="text-sm text-muted-foreground">Logged in via Steam</p>
-          </div>
-        </div>
+    {user && (
+  <div className="mb-8 flex items-center gap-4 rounded-xl border border-border bg-card p-4">
+    <img
+      src={user.avatar}
+      alt="Steam Avatar"
+      className="h-12 w-12 rounded-full"
+    />
+    <div>
+      <p className="font-medium text-foreground">
+        {user.username}
+      </p>
+      <p className="text-sm text-muted-foreground">
+        Logged in via Steam
+      </p>
+    </div>
+  </div>
+)}
 
         {/* Progress */}
         <div className="mb-8">
