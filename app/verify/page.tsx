@@ -46,7 +46,7 @@ export default function VerifyPage() {
         if (!data.loggedIn) {
           window.location.href = "/api/auth/steam";
         } else {
-          setUser({ steamId: data.steamid });
+          setUser({ steamId: data.steamId });
         }
         setAuthLoading(false);
       });
