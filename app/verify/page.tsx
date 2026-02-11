@@ -19,6 +19,7 @@ const simulateComplete = (step: number) => {
 export default function VerifyPage() {
   const router = useRouter();
   const [tradeLink, setTradeLink] = useState("");
+  const [user, setUser] = useState<{ steamId: string } | null>(null);
   const [tradeLinkSaved, setTradeLinkSaved] = useState(false);
   const [step1Complete, setStep1Complete] = useState(false);
   const [step2Complete, setStep2Complete] = useState(false);
@@ -33,6 +34,26 @@ export default function VerifyPage() {
   const isOnCooldown = cooldownRemaining !== null && cooldownRemaining > 0;
 
   // Check cooldown and inventory status on mount
+  useEffect(() => {
+  const checkUser = async () => {
+    try {
+      const res = await fetch("/api/me");
+      const data = await res.json();
+
+      if (!data.loggedIn) {
+        window.location.href = "/api/auth/steam";
+        return;
+      }
+
+      setUser({ steamId: data.steamId });
+    } catch (error) {
+      window.location.href = "/api/auth/steam";
+    }
+  };
+
+  checkUser();
+}, []);
+
   useEffect(() => {
     const checkStatus = async () => {
       try {
@@ -196,7 +217,9 @@ export default function VerifyPage() {
             </svg>
           </div>
           <div>
-            <p className="font-medium text-foreground">SteamUser123</p>
+            <p className="font-medium text-foreground">
+             {user ? user.steamId : "Loading..."}
+             </p>
             <p className="text-sm text-muted-foreground">Logged in via Steam</p>
           </div>
         </div>
