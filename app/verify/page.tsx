@@ -40,17 +40,16 @@ export default function VerifyPage() {
 
   // 🔐 Check if user is logged in
   useEffect(() => {
-    fetch("/api/me")
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.loggedIn) {
-          window.location.href = "/api/auth/steam";
-        } else {
-          setUser({ steamId: data.steamId });
-        }
-        setAuthLoading(false);
-      });
-  }, []);
+  fetch("/api/me")
+    .then(res => res.json())
+    .then(data => {
+      if (!data.loggedIn) {
+        window.location.href = "/api/auth/steam";
+      } else {
+        setUser(data);
+      }
+    });
+}, []);
 
   // Check cooldown and inventory status on mount
   useEffect(() => {
@@ -205,24 +204,24 @@ export default function VerifyPage() {
     <div className="mx-auto max-w-xl">
 
       {user && (
-        <div className="mb-8 flex items-center gap-4 rounded-xl border border-border bg-card p-4">
-          {user.avatar && (
-            <img
-              src={user.avatar}
-              className="h-12 w-12 rounded-full"
-              alt="Avatar"
-            />
-          )}
-          <div>
-            <p className="font-medium text-foreground">
-              {user.username}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Logged in via Steam
-            </p>
-          </div>
-        </div>
-      )}
+  <div className="mb-8 flex items-center gap-4 rounded-xl border border-border bg-card p-4">
+    
+    <img
+      src={user.avatar}
+      alt="Steam Avatar"
+      className="h-12 w-12 rounded-full"
+    />
+
+    <div>
+      <p className="font-medium text-foreground">
+        {user.username}
+      </p>
+      <p className="text-sm text-muted-foreground">
+        Logged in via Steam
+      </p>
+    </div>
+  </div>
+)}
       
         {/* Progress */}
         <div className="mb-8">
