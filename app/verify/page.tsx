@@ -20,6 +20,7 @@ export default function VerifyPage() {
   const router = useRouter();
   const [tradeLink, setTradeLink] = useState("");
   const [user, setUser] = useState<{ steamId: string } | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
   const [tradeLinkSaved, setTradeLinkSaved] = useState(false);
   const [step1Complete, setStep1Complete] = useState(false);
   const [step2Complete, setStep2Complete] = useState(false);
@@ -33,27 +34,21 @@ export default function VerifyPage() {
   const allComplete = tradeLinkSaved && step1Complete && step2Complete;
   const isOnCooldown = cooldownRemaining !== null && cooldownRemaining > 0;
 
-  // Check cooldown and inventory status on mount
+  // 🔐 Check if user is logged in
   useEffect(() => {
-  const checkUser = async () => {
-    try {
-      const res = await fetch("/api/me");
-      const data = await res.json();
+    fetch("/api/me")
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.loggedIn) {
+          window.location.href = "/api/auth/steam";
+        } else {
+          setUser({ steamId: data.steamId });
+        }
+        setAuthLoading(false);
+      });
+  }, []);
 
-      if (!data.loggedIn) {
-        window.location.href = "/api/auth/steam";
-        return;
-      }
-
-      setUser({ steamId: data.steamId });
-    } catch (error) {
-      window.location.href = "/api/auth/steam";
-    }
-  };
-
-  checkUser();
-}, []);
-
+  // Check cooldown and inventory status on mount
   useEffect(() => {
     const checkStatus = async () => {
       try {
