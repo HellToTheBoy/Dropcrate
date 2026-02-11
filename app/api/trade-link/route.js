@@ -1,41 +1,33 @@
-import { NextResponse } from "next/server";
+// ⚠️ Replace this with real database later
+let fakeDatabase = {};
 
-// ⚠️ Replace this with your real DB later
-let fakeDatabase: Record<string, string> = {};
-
-export async function POST(request: Request) {
+export async function POST(request) {
   const cookie = request.headers.get("cookie") || "";
   const match = cookie.match(/steamId=([^;]+)/);
 
   if (!match) {
-    return NextResponse.json({ success: false }, { status: 401 });
+    return Response.json({ success: false });
   }
 
   const steamId = match[1];
   const body = await request.json();
-  const tradeLink = body.tradeLink;
 
-  if (!tradeLink?.includes("steamcommunity.com/tradeoffer/new")) {
-    return NextResponse.json({ success: false }, { status: 400 });
-  }
+  fakeDatabase[steamId] = body.tradeLink;
 
-  // Save trade link to "database"
-  fakeDatabase[steamId] = tradeLink;
-
-  return NextResponse.json({ success: true });
+  return Response.json({ success: true });
 }
 
-export async function GET(request: Request) {
+export async function GET(request) {
   const cookie = request.headers.get("cookie") || "";
   const match = cookie.match(/steamId=([^;]+)/);
 
   if (!match) {
-    return NextResponse.json({ tradeLink: null });
+    return Response.json({ tradeLink: null });
   }
 
   const steamId = match[1];
 
-  return NextResponse.json({
+  return Response.json({
     tradeLink: fakeDatabase[steamId] || null,
   });
 }
