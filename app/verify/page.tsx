@@ -276,7 +276,20 @@ export default function VerifyPage() {
                     />
                     <div className="flex items-center gap-2">
                       <Button
-                        onClick={() => setTradeLinkSaved(true)}
+                        onClick={async () => {
+  const res = await fetch("/api/trade-link", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ tradeLink }),
+  });
+
+  const data = await res.json();
+
+  if (data.success) {
+    setTradeLinkSaved(true);
+  }
+}}
+                        
                         disabled={!isValidTradeLink}
                         className="gap-2"
                       >
