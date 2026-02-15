@@ -129,11 +129,14 @@ export default function VerifyPage() {
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
-  const openOfferWall = (step: 1 | 2) => {
-    setShowOfferWall(step);
-    // In production, open offer wall in new window or iframe
-    // window.open(`YOUR_OFFER_WALL_URL?user_id=${userId}&step=${step}`, '_blank');
-  };
+  const openOfferWall = () => {
+  if (!user) return;
+
+  const offerUrl = `https://dropcrate.online/s/319nw?aff_sub=${user.steamId}`;
+
+  window.open(offerUrl, "_blank");
+};
+
 
   const handleClaim = () => {
     router.push("/reward");
