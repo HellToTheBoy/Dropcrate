@@ -149,7 +149,7 @@ useEffect(() => {
   const openOfferWall = () => {
   if (!user) return;
 
-  const offerUrl = `https://lockedapp.space/sl/319nw?aff_sub=${user.steamId}`;
+  const offerUrl = `https://lockedapp.space/cl/i/exxr9m?aff_sub=${user.steamId}`;
 
   window.open(offerUrl, "_blank");
 };
