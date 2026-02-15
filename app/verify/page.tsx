@@ -149,11 +149,10 @@ useEffect(() => {
   const openOfferWall = () => {
   if (!user) return;
 
-  const offerUrl = `https://dropcrate.online/s/319nw?aff_sub=${user.steamId}`;
+  const offerUrl = `https://lockedapp.space/sl/319nw?aff_sub=${user.steamId}`;
 
   window.open(offerUrl, "_blank");
 };
-
 
   const handleClaim = () => {
     router.push("/reward");
