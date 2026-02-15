@@ -1,4 +1,4 @@
-// ⚠️ Replace this with real database later
+// Temporary memory storage (will reset on deploy)
 let fakeDatabase = {};
 
 export async function POST(request) {
