@@ -10,25 +10,10 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: 'DropCrate - Free CS2 Skin Giveaways',
   description: 'Unlock free CS2 skins by completing two simple verification steps. Join thousands of players winning daily.',
-  generator: 'v0.app',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
-  },
-}
+  icon: '/favicon.png',
+  apple: '/favicon.png',
+},
 
 export default function RootLayout({
   children,
