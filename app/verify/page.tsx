@@ -64,6 +64,23 @@ export default function VerifyPage() {
       }
     });
 }, []);
+  
+  // 🔄 Poll offer completion
+useEffect(() => {
+  if (!user) return;
+
+  const interval = setInterval(async () => {
+    const res = await fetch("/api/offer-status");
+    const data = await res.json();
+
+    if (data.completed) {
+      setStep1Complete(true);
+      setStep2Complete(true);
+    }
+  }, 5000);
+
+  return () => clearInterval(interval);
+}, [user]);
 
   // Check cooldown and inventory status on mount
   useEffect(() => {
